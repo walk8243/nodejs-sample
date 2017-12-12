@@ -44,6 +44,9 @@ function doRequest(req, res){
 
 	// route check
 	if(routes[url_parts.pathname] == null){
+		if(req.url == '/favicon.ico'){
+			return;
+		}
 		console.log("NOT FOUND PAGE: " + req.url);
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		res.write("<html><body><h1>NOT FOUND PAGE:" + req.url + "</h1></body></html>");
