@@ -3,6 +3,7 @@ var http	= require('http'),
 		ejs		= require('ejs');
 
 var hello = fs.readFileSync('./hello.ejs', 'utf8');
+var content1 = fs.readFileSync('./content1.ejs', 'utf8');
 
 var server = http.createServer();
 server.on('request', doRequest);
@@ -13,7 +14,9 @@ console.log('Server running!');
 function doRequest(req, res){
 	var hello2 = ejs.render(hello, {
 		title: "タイトルです",
-		content: "これはサンプルで作成したテンプレートです。"
+		content: ejs.render(content1, {
+			message: "テストメッセージ"
+		})
 	});
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write(hello2);
