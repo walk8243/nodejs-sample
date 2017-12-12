@@ -15,7 +15,11 @@ function doRequest(req, res){
 	var hello2 = ejs.render(hello, {
 		title: "タイトルです",
 		content: ejs.render(content1, {
-			message: "テストメッセージ"
+			data: [
+				"これは最初のデータです。",
+				"次のデータだよ。",
+				"一番最後のデータなのだ。"
+			]
 		})
 	});
 	res.writeHead(200, {'Content-Type': 'text/html'});
