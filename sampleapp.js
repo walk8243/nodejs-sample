@@ -1,11 +1,13 @@
 var http	= require('http'),
 		fs		= require('fs'),
 		ejs		= require('ejs'),
-		url		= require('url');
+		url		= require('url'),
+		qs		= require('querystring');
 
 var template = fs.readFileSync('./template.ejs', 'utf8');
 var content2 = fs.readFileSync('./content2.ejs', 'utf8');
 var content3 = fs.readFileSync('./content3.ejs', 'utf8');
+var content4 = fs.readFileSync('./content4.ejs', 'utf8');
 
 var routes = {
 	"/": {
@@ -22,6 +24,10 @@ var routes = {
 		"title": "Other Page",
 		"message": "別のページです。",
 		"content": content3
+	},
+	"/post": {
+		"title": "Post Page",
+		"content": content4
 	}
 };
 
@@ -46,16 +52,49 @@ function doRequest(req, res){
 	}
 
 	// page render
-	var content = ejs.render(template, {
-		title: routes[url_parts.pathname].title,
-		content: ejs.render(
-			routes[url_parts.pathname].content,
-			{
-				message: routes[url_parts.pathname].message
-			}
-		)
-	});
-	res.writeHead(200, {'Content-Type': 'text/html'});
-	res.write(content);
-	res.end();
+	// get
+	if(req.method == "GET"){
+		var content = ejs.render(template, {
+			title: routes[url_parts.pathname].title,
+			content: ejs.render(
+				routes[url_parts.pathname].content,
+				{
+					message: routes[url_parts.pathname].message
+				}
+			)
+		});
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		res.write(content);
+		res.end();
+		return;
+	}else if(req.method == "POST"){
+		if(url_parts.pathname == "/post"){
+			var body = '';
+			req.on('data', function(data){
+				body += data;
+			});
+			req.on('end', function(){
+				var post = qs.parse(body);
+				var content = ejs.render(template, {
+					title: routes[url_parts.pathname].title,
+					content: ejs.render(
+						routes[url_parts.pathname].content,
+						{
+							idname: post.idname,
+							pass: post.pass
+						}
+					)
+				});
+				res.writeHead(200, {'Content-Type': 'text/html'});
+				res.write(content);
+				res.end();
+				return;
+			});
+		}else{
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.write("NO-POST!!");
+			res.end();
+			return;
+		}
+	}
 }
