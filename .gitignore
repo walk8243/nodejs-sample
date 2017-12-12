@@ -1,2 +1,5 @@
 # lnk ファイルを無視する
 *.lnk
+
+# node_modules以下を無視する
+node_modules/

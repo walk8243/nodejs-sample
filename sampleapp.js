@@ -1,5 +1,8 @@
 var http	= require('http'),
-		fs		= require('fs');
+		fs		= require('fs'),
+		ejs		= require('ejs');
+
+var hello = fs.readFileSync('./hello.ejs', 'utf8');
 
 var server = http.createServer();
 server.on('request', doRequest);
@@ -8,13 +11,11 @@ console.log('Server running!');
 
 // リクエストの処理
 function doRequest(req, res){
-	fs.readFile(
-		'./hello.html',
-		'UTF-8',
-		function(err, data){
-			res.writeHead(200, {'Content-Type': 'text/html'});
-			res.write(data);
-			res.end();
-		}
-	);
+	var hello2 = ejs.render(hello, {
+		title: "タイトルです",
+		content: "これはサンプルで作成したテンプレートです。"
+	});
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	res.write(hello2);
+	res.end();
 }
