@@ -3,3 +3,6 @@
 
 # node_modules以下を無視する
 node_modules/
+
+# config/development.ymlを無視する
+config/development.yml
