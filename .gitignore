@@ -4,7 +4,7 @@
 # node_modules以下を無視する
 node_modules/
 
-# config以下を無視する
-config/
+# config/内のファイルを無視する
+config/*
 # 但し、default.ymlは必要なファイル
 !config/default.yml
