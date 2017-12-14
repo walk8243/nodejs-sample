@@ -2,12 +2,15 @@ var http	= require('http'),
 		fs		= require('fs'),
 		ejs		= require('ejs'),
 		url		= require('url'),
-		qs		= require('querystring');
+		qs		= require('querystring'),
+		favicon	= require('serve-favicon');
 
 var template = fs.readFileSync('./template.ejs', 'utf8');
 var content2 = fs.readFileSync('./content2.ejs', 'utf8');
 var content3 = fs.readFileSync('./content3.ejs', 'utf8');
 var content4 = fs.readFileSync('./content4.ejs', 'utf8');
+
+var _favicon = favicon('./favicon.ico');
 
 var routes = {
 	"/": {
@@ -44,10 +47,16 @@ console.log('Server running!');
 
 // リクエストの処理
 function doRequest(req, res){
+	// faviconの設定
+	_favicon(req, res, function onNext(err){
+		if(err){return done(err);}
+	});
+
 	var url_parts = url.parse(req.url);
 	// console.log(url_parts);
 	// return;
 
+	// faviconの時は何もしない
 	if(url_parts.pathname == '/favicon.ico'){
 		return;
 	}

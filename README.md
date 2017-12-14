@@ -35,3 +35,7 @@ YAMLファイルをJSで使うために使用してます。
 ## mysql(install)
 [公式](https://www.npmjs.com/package/mysql)  
 データベース(mysql)を使うために使用しています。
+
+## serve-favicon(install)
+[公式](https://www.npmjs.com/package/serve-favicon)  
+Node.js上で「favicon.ico」を有効にするために使用しています。
