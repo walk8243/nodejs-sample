@@ -1,3 +1,9 @@
 account:
   name: "my account"
   mail: "my mails"
+
+mysql:
+  host: "host name"
+  user: "user name"
+  pass: "password"
+  database: "database name"
