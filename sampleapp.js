@@ -31,6 +31,12 @@ var routes = {
 	}
 };
 
+// 外部ファイルにあるJSの読み込み&実行
+var export_function = require('./export.js');
+export_function.func1();
+export_function.func2('hoge');
+
+// サーバーの作成
 var server = http.createServer();
 server.on('request', doRequest);
 server.listen(1234);
